@@ -16,7 +16,7 @@ set(TARGET_NAME "gstprojectm")
 
 set(OpenGL_GL_PREFERENCE "GLVND")
 
-set(PKG_CONFIG_PATH "/home/tristan/Documents/pm4.0/usr/lib/pkgconfig:${PKG_CONFIG_PATH}")
+#set(PKG_CONFIG_PATH "/home/tristan/Documents/pm4.0/usr/lib/pkgconfig:${PKG_CONFIG_PATH}")
 
 find_package(PkgConfig REQUIRED)
 #find_package(gstreamer REQUIRED)
@@ -27,12 +27,11 @@ pkg_check_modules(GLIB2 glib-2.0 REQUIRED)
 
 
 set(projectM4_DIR "/home/tristan/Documents/pm4.0/usr/lib/cmake/projectM4")
-set(libprojectM_DIR "/home/tristan/Documents/pm4.0/usr/lib/cmake/projectM4")#/home/tristan/dev/pm/projectm/build/src/libprojectM/)
+#set(libprojectM_DIR "/home/tristan/Documents/pm4.0/usr/lib/cmake/projectM4")#/home/tristan/dev/pm/projectm/build/src/libprojectM/)
 #set(CMAKE_PREFIX_PATH "/home/tristan/dev/")
 find_package(projectM4 REQUIRED PATHS "${projectM4_DIR}")
-find_library(projectM-4_DIR projectM-4 REQUIRED PATHS "/home/tristan/Documents/pm4.0/usr/lib")
+#find_library(projectM-4_DIR projectM-4 REQUIRED PATHS "/home/tristan/Documents/pm4.0/usr/lib")
 #find_package(libprojectM REQUIRED PATHS "${projectM4_DIR}")#/home/tristan/dev/pm/projectm/build/src/libprojectM/)
-set(CONFIG_FILES "")
 message(glib include dirs: "${GLIB2_INCLUDE_DIRS}")
 message(glib libs: "${GLIB2_LIBRARIES}")
 
@@ -53,25 +52,13 @@ target_include_directories(${TARGET_NAME}
         ${GSTREAMER_AUDIO_INCLUDE_DIRS}
         ${GLIB2_INCLUDE_DIRS}
         ${CMAKE_CURRENT_SOURCE_DIR}
-        "/home/tristan/Documents/pm4.0/usr/include/projectM-4"
+       # "/home/tristan/Documents/pm4.0/usr/include/projectM-4"
         )
 
 message(GST include dirs: "${GST_INCLUDE_DIRS}")
 message(GST libraries: "${GST_LIBRARIES}")
 
 message(projectm: "${projectM4}")
-
-get_cmake_property(_r "${LINK_LIBRARIES}")
-get_cmake_property(_variableNames VARIABLES)
-list (SORT _variableNames)
-foreach (_variableName ${_variableNames})
-    message(STATUS "${_variableName}=${${_variableName}}")
-endforeach()
-
-list (SORT _r)
-foreach (_rr ${_r})
-    message(STATUS "${_rr}=${${_rr}}")
-endforeach()
 
 target_link_libraries(${TARGET_NAME}
         PUBLIC
@@ -84,6 +71,5 @@ target_link_libraries(${TARGET_NAME}
         ${GSTREAMER_AUDIO_LIBRARIES}
         ${GLIB2_LIBRARIES}
         PRIVATE
-        ${projectM-4_DIR}
         libprojectM::projectM
         )

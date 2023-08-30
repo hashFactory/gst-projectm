@@ -115,7 +115,7 @@ static void gst_trido_setup_projectm(GstProjectM * projectm) {
   if (other)
     return;
 
-  GstGLDisplay *display = gst_gl_display_new_with_type(GST_GL_DISPLAY_TYPE_X11);
+  GstGLDisplay *display = gst_gl_display_new_with_type(GST_GL_DISPLAY_TYPE_ANY);
   GstGLContext *context = gst_gl_context_new(display);
   GError *error = NULL;
 
@@ -158,11 +158,8 @@ static void gst_trido_setup_projectm(GstProjectM * projectm) {
 
   guint curr_con = gst_gl_context_get_current_gl_context(GST_GL_PLATFORM_GLX);
 
-  //gst_gl_context_create()
-
   GST_DEBUG_OBJECT(projectm, "current context: %d\n", curr_con);
 
-  //gst_gl_context_set_shared_with();
   //projectm_settings settings;
 
   projectm->display = display;
@@ -256,7 +253,7 @@ gst_projectm_class_init (GstProjectMClass *g_class)
   //}
 
    gst_element_class_set_static_metadata (GST_ELEMENT_CLASS (klass),
-      "ProjectM Visualizer", "Generic", "FIXME Description",
+      "ProjectM Visualizer", "Generic", "A plugin for visualizing music using ProjectM",
       "Tristan Charpentier <tristan_charpentier@hotmail.com>");
 
   gobject_class->set_property = gst_projectm_set_property;
