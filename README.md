@@ -3,9 +3,20 @@
 
 This is still a work in progress but should build on most common linux system setups.
 
-You must first build projectM before building gst-projectm.
+### Build automatically
 
-### Prerequisites:
+Supported platforms:
+- Ubuntu / Debian
+- Arch linux / Manjaro
+
+```bash
+chmod +x ./build.sh
+./build.sh
+```
+
+### Build manually
+
+#### Prerequisites:
 - [ProjectM](https://github.com/projectM-visualizer/projectm)
 - [GStreamer](https://gitlab.freedesktop.org/gstreamer/gstreamer)
 
@@ -14,24 +25,27 @@ You must first build projectM before building gst-projectm.
 git clone https://github.com/projectM-visualizer/projectm
 cd projectm
 mkdir build && cd build
-cmake -S ../ -B ./ -GNinja
+cmake -S ../ -B ./ -GNinja -DCMAKE_INSTALL_PREFIX=~/.local
 ninja
-export projectM4_DIR=$(pwd)/src/libprojectM/libprojectM
+ninja install
+export projectM4_DIR=$HOME/.local/lib/cmake/projectM4
 cd ../..
 ```
 
-### Build gst-projectM
+#### Build gst-projectM
 ```bash
 git clone https://github.com/hashFactory/gst-projectm
 cd gst-projectm
 mkdir build && cd build
 cmake -S ../ -B ./ -DprojectM4_DIR="$projectM4_DIR" -GNinja
 ninja
-export GST_PLUGIN_PATH="$(pwd)"
+mkdir -p $HOME/.local/share/gstreamer-1.0/plugins/
+cp libgstprojectm.so $HOME/.local/share/gstreamer-1.0/plugins/
 ```
 
 ### How To Use
 ```bash
+# if libgstprojectm.so is not in its default path
 export GST_PLUGIN_PATH="[ location of folder containing libgstprojectm.so ]"
 
 # Record desktop audio and display it in a 1920x1080 window
