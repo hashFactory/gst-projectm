@@ -25,8 +25,9 @@ pkg_check_modules(GST REQUIRED gstreamer-1.0>=1.8 gstreamer-base-1.0>=1.8 gstrea
 pkg_check_modules(GLIB2 glib-2.0 REQUIRED)
 #set(ENV{PKG_CONFIG_PATH})
 
-
-set(projectM4_DIR "/home/tristan/Documents/pm4.0/usr/lib/cmake/projectM4")
+if(NOT projectM4_DIR)
+        set(projectM4_DIR "/home/tristan/Documents/pm4.0/usr/lib/cmake/projectM4")
+endif()
 #set(libprojectM_DIR "/home/tristan/Documents/pm4.0/usr/lib/cmake/projectM4")#/home/tristan/dev/pm/projectm/build/src/libprojectM/)
 #set(CMAKE_PREFIX_PATH "/home/tristan/dev/")
 find_package(projectM4 REQUIRED PATHS "${projectM4_DIR}")
