@@ -51,26 +51,7 @@ make_valid_name (gchar * name)
       *p = '_';
   }
 }
-/*
-static gboolean
-gst_projectm_actor_plugin_is_gl (VisObject * plugin, const gchar * name)
-{
-  gboolean is_gl;
-  gint depth;
 
-  depth = PROJECTM_ACTOR_PLUGIN (plugin)->vidoptions.depth;
-  // FIXME: how to figure this out correctly in 0.4?
-  is_gl = (depth & PROJECTM_VIDEO_DEPTH_GL) == PROJECTM_VIDEO_DEPTH_GL;
-
-  if (!is_gl) {
-    GST_DEBUG ("plugin %s is not a GL plugin (%d), registering", name, depth);
-  } else {
-    GST_DEBUG ("plugin %s is a GL plugin (%d), ignoring", name, depth);
-  }
-
-  return is_gl;
-}
-*/
 static gboolean
 plugin_init (GstPlugin * plugin)
 {
