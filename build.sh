@@ -1,11 +1,11 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 now="$(pwd)"
 
 # if running on debian / ubuntu
 if [ -f "$(which apt)" ] ; then
     sudo apt update
-    sudo apt install mesa-common-dev build-essential git ninja-build cmake pkgconf libgstreamer1.0-dev libgstreamer-gl1.0-0 libgstreamer-plugins-base1.0-dev
+    sudo apt install mesa-common-dev build-essential git cmake pkg-config libgstreamer1.0-dev libgstreamer-gl1.0-0 libgstreamer-plugins-base1.0-dev
 fi
 
 # if running on arch
@@ -14,12 +14,12 @@ if [ -f "$(which pacman)" ] ; then
 fi
 
 # install projectM
-git clone https://github.com/projectM-visualizer/projectm
+git clone --recursive https://github.com/projectM-visualizer/projectm
 cd projectm
-mkdir build && cd build
-cmake -S ../ -B ./ -GNinja -DCMAKE_INSTALL_PREFIX=~/.local
-ninja
-ninja install
+mkdir -p build && cd build
+cmake -S ../ -B ./ -DCMAKE_INSTALL_PREFIX=~/.local
+make -j$(nproc)
+make install install
 projectM4_DIR=$HOME/.local/lib/cmake/projectM4
 cd ../..
 
@@ -28,9 +28,9 @@ if [[ ! $(pwd) =~ "gst-projectm" ]] ; then
     git clone https://github.com/hashFactory/gst-projectm
     cd gst-projectm
 fi
-mkdir build && cd build
-cmake -S ../ -B ./ -DprojectM4_DIR="$projectM4_DIR" -GNinja
-ninja
+mkdir -p build && cd build
+cmake -S ../ -B ./ -DprojectM4_DIR="$projectM4_DIR"
+make -j$(nproc)
 mkdir -p $HOME/.local/share/gstreamer-1.0/plugins/
 cp libgstprojectm.so $HOME/.local/share/gstreamer-1.0/plugins/
 cd $now
